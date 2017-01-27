@@ -19,16 +19,16 @@ function getAll(req,res,next){
             res.status(500);    
         });
 }
-
+/*
 app.use(function(req,res,next){
                     console.log("FIFIFI");
                     next();
 });
+*/
 app.use(bodyParser.json());
 app.all('/hello',function(req,res){
-
-    console.log(req.ip+" "+Object.keys(req.body));
-    res.send("Ok");
+    console.log(req.ip+" ");
+    res.send(JSON.stringify({"Msg":"Hello "+req.body.name,"Square":Math.pow(req.body.age,2)}));
 });
 
 app.listen('8080','0.0.0.0');
