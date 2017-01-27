@@ -26,8 +26,12 @@ app.use(function(req,res,next){
 });
 */
 app.use(bodyParser.json());
+app.all('/swap',function(req,res){
+    console.log(req.ip+" "+req.body.name);
+    res.send(JSON.stringify({"Name":req.body.age,"Age":req.body.name}));
+})
 app.all('/hello',function(req,res){
-    console.log(req.ip+" ");
+    console.log(req.ip+" "+req.body.name);
     res.send(JSON.stringify({"Msg":"Hello "+req.body.name,"Square":Math.pow(req.body.age,2)}));
 });
 
