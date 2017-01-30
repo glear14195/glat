@@ -46,7 +46,12 @@ app.use(bodyParser.json());
 app.all('/swap',function(req,res){
     console.log(req.ip+" "+req.body.name);
     res.send(JSON.stringify({"Name":req.body.age,"Age":req.body.name}));
-})
+});
+
+app.all('/printBody',function(req,res){
+    res.send(req.body);
+    console.log(req.body);
+});
 app.all('/hello',function(req,res){
     console.log(req.ip+" "+req.body.name);
     res.send(JSON.stringify({"Msg":"Hello "+req.body.name,"Square":Math.pow(req.body.age,2)}));
