@@ -42,7 +42,7 @@ app.use(function(req,res,next){
                     next();
 });
 
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 app.all('/swap',function(req,res){
     console.log(req.ip+" "+req.body.name);
     res.send(JSON.stringify({"Name":req.body.age,"Age":req.body.name}));
