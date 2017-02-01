@@ -2,7 +2,28 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var solr = require('solr-client');
+var pg = require('pg');
 var client = solr.createClient({core:'gpsShit'});
+var config = {
+  user: 'glat', //env var: PGUSER
+  database: 'glatstuff', //env var: PGDATABASE
+  password: 'yummy', //env var: PGPASSWORD
+  host: 'localhost', // Server hosting the postgres database
+  port: 5432, //env var: PGPORT
+};
+
+var client = new pg.Client(config);
+
+client.connect(function (err) {
+  if (err) console.log(err);
+  client.query('SELECT * from test;', function (err, result) {
+    if (err) console.log(err);
+    else console.log(result.rows[0]); 
+    client.end(function (err) {
+      if (err) throw err;
+    });
+  });
+});
 
 function gpsStore(req,res,next)
 {
