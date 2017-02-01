@@ -3,7 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var solr = require('solr-client');
 var pg = require('pg');
-var client = solr.createClient({core:'gpsShit'});
+var solrclient = solr.createClient({core:'gpsShit'});
 var config = {
   user: 'glat', //env var: PGUSER
   database: 'glatstuff', //env var: PGDATABASE
@@ -12,14 +12,14 @@ var config = {
   port: 5432, //env var: PGPORT
 };
 
-var client = new pg.Client(config);
+var pgclient = new pg.Client(config);
 
-client.connect(function (err) {
+pgclient.connect(function (err) {
   if (err) console.log(err);
-  client.query('SELECT * from test;', function (err, result) {
+  pgclient.query('SELECT * from test;', function (err, result) {
     if (err) console.log(err);
     else console.log(result.rows[0]); 
-    client.end(function (err) {
+    pgclient.end(function (err) {
       if (err) throw err;
     });
   });
@@ -27,12 +27,12 @@ client.connect(function (err) {
 
 function gpsStore(req,res,next)
 {
-        client.add({name_s:req.body.name, location_p: req.body.lat+","+req.body.long  },function(err,obj){
+        solrclient.add({name_s:req.body.name, location_p: req.body.lat+","+req.body.long  },function(err,obj){
         if(err){
             console.log(err);
         }else{
             console.log('Solr response:', obj);
-            client.commit(function(err,res){
+            solrclient.commit(function(err,res){
                 if(err) console.log(err);
                 if(res) console.log(res);
             });
@@ -63,7 +63,7 @@ app.use(function(req,res,next){
                     next();
 });
 
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.all('/swap',function(req,res){
     console.log(req.ip+" "+req.body.name);
     res.send(JSON.stringify({"Name":req.body.age,"Age":req.body.name}));
