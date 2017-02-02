@@ -18,7 +18,7 @@ pgclient.connect(function (err) {
   if (err) console.log(err);
   pgclient.query('SELECT * from test;', function (err, result) {
     if (err) console.log(err);
-    else console.log(result.rows[0]); 
+    else console.log(result); 
     pgclient.end(function (err) {
       if (err) throw err;
     });
