@@ -4,6 +4,7 @@ var user = require('./user');
 var routes = express.Router();
 
 routes.post('/user/signup',mw.navigate,user.signup);
+routes.post('/user/otpverify',mw.navigate,user.otpverified);
 routes.post('/swap',function(req,res){
     console.log(req.ip+" "+req.body.name);
     res.send(JSON.stringify({"Name":req.body.age,"Age":req.body.name}));
