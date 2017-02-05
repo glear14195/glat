@@ -1,6 +1,7 @@
 //For GLAT
 
 APIS:
+
     /user/signup
     ->first api to hit
         req:
