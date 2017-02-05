@@ -14,13 +14,13 @@ var signup = function(req,res){
                                     resp.err='User exists';
                                     resp.resp={'msg':'YO, you cheater!','name':result[0].dname};
                                     res.json(resp);
-                                    //res.json({'status':'fail','err':'User exists','resp':{'msg':'YO, you cheater!','name':result[0].dname}});
                                 }                                
                                 else{
-                                    resp.err='User registered';
-                                    resp.resp={'msg':'Need verification','name':result[0].dname};
+                                    resp.status='success'
+                                    var otp = new Chance().string({length:4,pool: '0123456789'});
+                                    console.log(otp);//send sms from here too!!
+                                    resp.resp={'msg':'otp resend','name':result[0].dname,'otp':otp};
                                     res.json(resp);
-                                    //res.json({'status':'fail','err':'User registered','resp':{'msg':'Need verification','name':result[0].dname}});
                                 }
                                 
                             }
