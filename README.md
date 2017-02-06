@@ -2,7 +2,7 @@
 
 APIS:
 
-    /user/signup
+    /user/sendotp
     ->first api to hit
         req:
             {
@@ -20,7 +20,7 @@ APIS:
                 }
             }
 
-    /user/otpverify
+    /user/login
     ->To hit after signup
         req:
             {
