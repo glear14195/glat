@@ -1,7 +1,7 @@
 var pgclient = require('../../models/pgclient');
 var Chance = require('chance');
 
-var signup = function(req,res){
+var sendotp = function(req,res){
                 var resp = {'status':'fail','err':'','resp':{}};
                 if(req&&req.data.phone&&req.data.name){
                     pgclient.execute(`select * from users where phone = '${req.data.phone}'`,function(err,result){
@@ -10,19 +10,16 @@ var signup = function(req,res){
                             res.json(resp);
                         }else{
                             if(result.length){
+                                var otp = new Chance().string({length:4,pool: '0123456789'});
+                                console.log(otp);//send sms from here too!!
+                                resp.status='success';
                                 if(result[0].is_verified){
-                                    resp.err='User exists';
-                                    resp.resp={'msg':'YO, you cheater!','name':result[0].dname};
-                                    res.json(resp);
+                                    resp.resp={'msg':'User exists','name':result[0].dname,'otp':otp};                                    
                                 }                                
-                                else{
-                                    resp.status='success'
-                                    var otp = new Chance().string({length:4,pool: '0123456789'});
-                                    console.log(otp);//send sms from here too!!
-                                    resp.resp={'msg':'otp resend','name':result[0].dname,'otp':otp};
-                                    res.json(resp);
+                                else{                                                        
+                                    resp.resp={'msg':'otp resend','name':result[0].dname,'otp':otp};                                    
                                 }
-                                
+                                res.json(resp);                                
                             }
                             else{
                                 var query = `insert into users values('${req.data.phone}','${req.data.name}',0)`;
@@ -48,4 +45,4 @@ var signup = function(req,res){
                 }
             }
 
-module.exports = signup;
+module.exports = sendotp;

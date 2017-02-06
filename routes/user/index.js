@@ -1,7 +1,7 @@
-var signup = require('./signup')
-var otpver = require('./otpverified')
+var sendotp = require('./sendotp')
+var login = require('./login')
 var user ={
-    'signup' : signup,
-    'otpverified' : otpver
+    'sendotp' : sendotp,
+    'login' : login
 };
 module.exports = user;

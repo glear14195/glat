@@ -1,10 +1,12 @@
 var express = require('express');
 var mw = require('./middleware');
 var user = require('./user');
+var group = require('./group');
 var routes = express.Router();
 
-routes.post('/user/signup',mw.navigate,user.signup);
-routes.post('/user/otpverify',mw.navigate,user.otpverified);
+routes.post('/user/sendotp',mw.navigate,user.sendotp);
+routes.post('/user/login',mw.navigate,user.login);
+routes.post('/group/add',mw.navigate,group.add);
 routes.post('/swap',function(req,res){
     console.log(req.ip+" "+req.body.name);
     res.send(JSON.stringify({"Name":req.body.age,"Age":req.body.name}));
