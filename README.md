@@ -34,3 +34,11 @@ APIS:
                     contains token on success
                 }
             }
+
+    /group/add
+    ->hit to add group
+        req:
+            {
+                phone,gname,mems,token
+                []
+            }        

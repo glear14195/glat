@@ -30,15 +30,16 @@ var add = function(req,res){
                                 res.json(resp);
                             }else{
                                 gid=result[0].gid;
-                                console.log(gid);
-                                user.filterUsers(req.data.mems,
+                                if(req.data.mems.constructor!==Array)req.data.mems = [req.data.mems];
+                                req.data.mems.push(req.data.phone);
+                                var uni = Array.from(new Set(req.data.mems));
+                                user.filterUsers(uni,
                                 function(err,U){
                                     if(err){
                                         resp.err=err;
                                         res.json(resp);
                                     }else{
                                         var toAdd = U.u;
-                                        toAdd.push(req.data.phone);
                                         group.addMembers(gid,toAdd,
                                         function(err){
                                             if(err){
