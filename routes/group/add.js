@@ -50,14 +50,13 @@ var add = function(req,res){
                                                 function(err,r){
                                                     if(err){
                                                         resp.err=err;
-                                                        res.json(resp);
                                                     }else{
                                                         resp.status = 'success';
                                                         resp.resp.added = toAdd;
                                                         resp.resp.notAdded = U.nu;
                                                         resp.resp.adminSet = r;
-                                                        res.json(resp);
                                                     }
+                                                    res.json(resp);
                                                 });                                                
                                             }
                                         });
