@@ -5,7 +5,7 @@ var timeout = 3600*24*7;
 var cache = {
     createToken: function(phone,cb){
                     var client = redis.createClient();
-                    var redisKey=prefix+phone;
+                    var redisKey = prefix + phone;
                     var token = new chance().string({length:32,pool:"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"});
                     client.setex(redisKey,timeout,token,function(err,reply){
                         client.end(true);
