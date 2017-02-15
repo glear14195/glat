@@ -18,11 +18,12 @@ var middleware = {
             next();
           } else {
             resp.err = 'incorrect token';
+            res.json(resp); 
           }
         } else {
-          resp.err = err || 'execution_error';          
+          resp.err = err || 'execution_error';
+          res.json(resp);          
         }
-        res.json(resp);
       });
     } else {
       resp.err = 'Missing Authentication token!';
