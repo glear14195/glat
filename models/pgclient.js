@@ -13,7 +13,7 @@ var pgclient={
                        client.end();
                         if (err){
                             console.log("Error in query execution: "+err+" query : "+query);
-                            cb('execution_error',null);
+                            cb('execution_error');
                         }
                         else cb(null,result.rows); 
                     });

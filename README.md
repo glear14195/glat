@@ -39,6 +39,27 @@ APIS:
     ->hit to add group
         req:
             {
-                phone,gname,mems,token
-                []
-            }        
+                phone,gname,mems (Array of phone numbers),token
+            }
+        res:
+            {
+                status: ['success','fail'],
+                err: ['Group already exists','Missing arguments','execution_error','logon_again','redis_error']
+                resp: {
+                    added: [array of numbers added to group],
+                    notAdded: [array of numbers not added to group],
+                    gid: unique group identifier
+                }                    
+            }
+    /user/contacts/view
+    ->hit for viewing contacts list
+        req:
+            {
+                phone,token,contacts array
+            }
+        res:
+            {
+                status: ['success','fail'],
+                err: ['execution_error','Missing arguments'],
+                resp: [{dname,phone}]
+            }

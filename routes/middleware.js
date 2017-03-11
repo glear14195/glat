@@ -21,7 +21,7 @@ var middleware = {
             res.json(resp); 
           }
         } else {
-          resp.err = err || 'execution_error';
+          resp.err = err || 'login_again';
           res.json(resp);          
         }
       });

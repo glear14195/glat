@@ -51,10 +51,9 @@ var add = function (req, res) {
                                         resp.err = err;
                                       } else {
                                         resp.status = 'success';
-                                        resp.gid = gid;
+                                        resp.resp.gid = gid;
                                         resp.resp.added = toAdd;
                                         resp.resp.notAdded = U.nu;
-                                        resp.resp.adminSet = r;
                                       }
                                       res.json(resp);
                                     });
