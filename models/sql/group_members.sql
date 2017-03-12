@@ -5,4 +5,4 @@ create table group_members(
   is_admin boolean default false  
 );
 
-create index gmem_gid on group_members(gid); 
+create index gmem_gid on group_members(gid);

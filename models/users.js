@@ -14,7 +14,7 @@ module.exports = users;
 
 if (require.main === module) {
   (function () {
-    users.all({}, function (err, res) {
+    users.findOrCreate({phone: '12121', dname: 'alala'}, function(err,res) {
       console.log(err || res);
     });
   })();
