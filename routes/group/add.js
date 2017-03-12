@@ -22,7 +22,7 @@ var add = function (req, res) {
                 res.json(resp);
               } else {
                 var gid;
-                pgclient.execute(`select gid from groups where uid = '${req.data.phone}' and gname = '${req.data.gname}'`,
+                pgclient.execute(`select id as gid from groups where uid = '${req.data.phone}' and gname = '${req.data.gname}'`,
                   function (err, result) {
                     if (err) {
                       resp.err = err;

@@ -1,5 +1,5 @@
 var pgclient = require('../../models/pgclient');
-var cache = require('../../models/cache');
+var cache = require('../../lib/cache');
 var chance = require('chance');
 var login = 
 function(req,res){

@@ -11,7 +11,7 @@ APIS:
         res:
             {
                 status: (success or fail),
-                err: (empty on success else err msg) ['User exists','execution_error','conn_error','','Missing Arguments']
+                err: (empty on success else err msg) ['User exists','execution_error','conn_error','Missing Arguments']
                 resp:{
                     contains otp on success.//To resend otp hit same api again 
                     on error 'User exists' contains name of user.
@@ -44,13 +44,14 @@ APIS:
         res:
             {
                 status: ['success','fail'],
-                err: ['Group already exists','Missing arguments','execution_error','logon_again','redis_error']
+                err: ['Group already exists','Missing arguments','execution_error','login_again','redis_error']
                 resp: {
                     added: [array of numbers added to group],
                     notAdded: [array of numbers not added to group],
                     gid: unique group identifier
                 }                    
             }
+
     /user/contacts/view
     ->hit for viewing contacts list
         req:

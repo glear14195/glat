@@ -1,6 +1,7 @@
 "use strict";
 
-var cache = require('../models/cache'); 
+var butils = require('../lib/butils');
+var cache = require('../lib/cache'); 
 var solr = require('solr-client');
 
 var solrclient = solr.createClient({ core: 'gpsShit' });
@@ -66,6 +67,9 @@ var middleware = {
     if (req.method == 'POST' && req.body) {
       var data = {};
       Object.keys(req.body).forEach(function (key) {
+        if (key === 'phone') {
+          req.body[key] = butils.cleanPhone(req.body[key]);
+        } 
         data[key] = req.body[key];
       });
       req.data = data;
