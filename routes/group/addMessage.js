@@ -7,19 +7,17 @@ var butils = require('../../lib/butils');
 var addMsg = function (req,res) {
   var gid = req.data.gid || 0;
   var uid = req.data.phone || '';
-  var lat = butils.cleanLatLong(req.data.lat, 'lat');
-  var long = butils.cleanLatLong(req.data.long, 'long');
+  var latlong = butils.cleanLatLong(req.data.lat, req.data.long);
   var sensorData = butils.cleanObject(req.data.sensorData);
   var body = req.data.body || '';
   var resp = {status: 'fail', err: '', resp: ''};
-  if (gid && uid && lat && long && sensorData && body) {
+  if (gid && uid && latlong && sensorData && body) {
     Groups.findOne({where: {id: gid}}, function (err, group) {
       if (!err && group) {
         var msgObj = {
           gid: gid,
           uid: uid,
-          lat: lat,
-          long: long,
+          latlong: latlong,
           sensorData: sensorData,
           body: body
         };
