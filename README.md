@@ -64,3 +64,16 @@ APIS:
                 err: ['execution_error','Missing arguments'],
                 resp: [{dname,phone}]
             }
+
+    /group/message/add
+    ->hit for adding message
+        req:
+            {
+                phone,token,lat(-90 to 90),long(-180 to 180),body,sensorData(object),gid
+            }
+        res:
+            {
+                status: status: ['success','fail'],
+                err: ['exec_error', 'login_again', 'Incorrect parameters', 'No such group']
+                resp: "Message added" (on success)
+            }
