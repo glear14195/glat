@@ -1,77 +1,105 @@
-var pgclient = require('../../models/pgclient');
-var group = require('../../lib/group');
-var user = require('../../lib/user');
+var Groups = require('../../models/groups');
+var userHandler = require('../../lib/user');
+var groupHandler = require('../../lib/group');
+var butils = require('../../lib/butils');
+
+function addMemsToGid(mems, gid, phone, cb) {
+  mems.push(phone);
+  var uniqueMems = Array.from(new Set(mems));
+  userHandler.filterUsers(uniqueMems, function (err, U) {
+    if (err) {
+      cb(err);
+    } else {
+      var toAdd = U.u;
+      groupHandler.addMembers(gid, toAdd, function (err) {
+        if (err) {
+          cb(err);
+        } else {
+          groupHandler.setAdmin(gid, phone, function (err, r) {
+            if (err) {
+              cb(err);
+            } else {
+              cb(null, {
+                added: toAdd,
+                notAdded: U.nu
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+}
 
 var add = function (req, res) {
   var resp = { 'status': 'fail', 'err': '', 'resp': {} };
-  if (req.data && req.data.phone && req.data.gname && req.data.mems) {
-    pgclient.execute(`select count(*) from groups where uid='${req.data.phone}' and gname = '${req.data.gname}'`,
-      function (err, result) {
-        if (err) {
-          resp.err = err;
+  var phone = req.data.phone || ``;
+  var gname = req.data.gname || ``;
+  var mems = req.data.mems || [];
+  var reqGid = req.data.gid || ``;
+  mems = mems.map((phone) => butils.cleanPhone(phone));
+  if (phone && gname && Array.isArray(mems)) {
+    Groups.findOne({ where: { uid: phone, gname: gname } }, function (err, groupDetails) {
+      if (err) {
+        console.log(`[ERROR group/updateOrCreate] for ${phone}: ${err}`);
+        resp.err = err;
+        res.json(resp);
+      } else {
+        if (!reqGid && groupDetails) {
+          console.log(`[ERROR group/updateOrCreate] for ${phone}: Group already exists`);
+          resp.err = 'Group already exists';
           res.json(resp);
-        } else if (result && result.length && result[0].count != '0') {
-          resp.err = 'Group already exists';//checked conflicting groups
-          res.json(resp);
-        }
-        else {
-          pgclient.execute(`insert into groups(uid,gname) values('${req.data.phone}','${req.data.gname}')`,
-            function (err, result) {
+        } else {
+          var gid;
+          if (!groupDetails) {
+            Groups.create({ uid: phone, gname: gname }, function (err, groupDetails) {
               if (err) {
-                resp.err = err;
+                console.log(`[ERROR group/updateOrCreate] Could not create group for ${phone}: ${err}`);
+                resp.err = 'execution_error';
                 res.json(resp);
               } else {
-                var gid;
-                pgclient.execute(`select id as gid from groups where uid = '${req.data.phone}' and gname = '${req.data.gname}'`,
-                  function (err, result) {
-                    if (err) {
-                      resp.err = err;
-                      res.json(resp);
-                    } else {
-                      gid = result[0].gid;
-                      if (req.data.mems.constructor !== Array) req.data.mems = [req.data.mems];
-                      req.data.mems.push(req.data.phone);
-                      var uni = Array.from(new Set(req.data.mems));
-                      user.filterUsers(uni,
-                        function (err, U) {
-                          if (err) {
-                            resp.err = err;
-                            res.json(resp);
-                          } else {
-                            var toAdd = U.u;
-                            group.addMembers(gid, toAdd,
-                              function (err) {
-                                if (err) {
-                                  resp.err = err;
-                                  res.json(resp);
-                                } else {
-                                  group.setAdmin(gid, req.data.phone,
-                                    function (err, r) {
-                                      if (err) {
-                                        resp.err = err;
-                                      } else {
-                                        resp.status = 'success';
-                                        resp.resp.gid = gid;
-                                        resp.resp.added = toAdd;
-                                        resp.resp.notAdded = U.nu;
-                                      }
-                                      res.json(resp);
-                                    });
-                                }
-                              });
-                          }
-
-                        });
-                    }
-                  });
-
+                gid = groupDetails.id;
+                addMemsToGid(mems, gid, phone, function (err, response) {
+                  if (err) {
+                    console.log(`[ERROR group/updateOrCreate] Could not add members to group for ${phone}: ${err}`);
+                    resp.err = 'execution_error';
+                  } else {
+                    resp.status = `success`;
+                    Object.assign(resp.resp, response);
+                    resp.resp.gid = gid;
+                  }
+                  res.json(resp);
+                });
               }
             });
+          } else {
+            gid = reqGid;
+            Groups.update({id: gid, uid: phone}, {gname: gname}, function (err, updatedDetails) {
+              if (err) {
+                console.log(`[ERROR group/updateOrCreate] Could not update group for ${phone}: ${err}`);
+                resp.err = 'execution_error';
+                res.json(resp);
+              } else {
+                addMemsToGid(mems, gid, phone, function (err, response) {
+                  if (err) {
+                    console.log(`[ERROR group/updateOrCreate] Could not add members to group for ${phone}: ${err}`);
+                    resp.err = 'execution_error';
+                  } else {
+                    resp.status = `success`;
+                    Object.assign(resp.resp, response);
+                    resp.resp.gid = gid;
+                  }
+                  res.json(resp);
+                });
+              }
+            });
+          }
         }
-      });
-  } else {
+      }
+    });
     resp.err = 'Missing Arguments';
     res.json(resp);
+  } else {
   }
 }
 
