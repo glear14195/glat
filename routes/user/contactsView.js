@@ -7,7 +7,7 @@ var contactsView = function (req, res) {
   var contacts = req.data.contacts || '';
   var phone = req.data.phone || '';
   var gid = req.data.gid || ``;
-  contacts = contacts.split(',');
+  
   if (contacts && Array.isArray(contacts) && phone) {
     user.getNames(contacts, gid, phone, function (err, result) {
       if (!err) {
@@ -20,7 +20,7 @@ var contactsView = function (req, res) {
       res.json(resp);
     });
   } else {
-    resp.err('Missing arguments');
+    resp.err = 'Missing arguments';
     console.log(`[ERROR user/contactsView] Invalid parameters for ${phone}`)
     res.json(resp);
   }
