@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 //app.use(/^\/image.*/, mw.multiPart);
 // ^ check why not working
 app.use(function (req, res, next) {
-    console.log(req.method + " request from " + req.ip + " " + Object.keys(req.body).map((key) => (`(${key}: ${typeof req.body[key]})`)).join("; ") + " " + req.url + " " + (new Date()).toString());
+    console.log(req.method + " request from " + req.ip + " " + Object.keys(req.body).map((key) => (`(${key}: ${typeof req.body[key]})`)).join("; ") + "\n" + JSON.stringify(req.body) + " " + req.url + " " + (new Date()).toString());
     next();
 });
 
