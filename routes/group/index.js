@@ -1,8 +1,8 @@
-var add = require('./add');
+var updateOrCreate = require('./updateOrCreate');
 var addMessage = require('./addMessage');
 
 var group = {
-    'add': add,
+    'updateOrCreate': updateOrCreate,
     'addMessage': addMessage
 }
 

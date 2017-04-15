@@ -35,7 +35,7 @@ APIS:
                 }
             }
 
-    /group/add
+    /group/updateOrCreate
     ->hit to add group
         req:
             {
@@ -77,3 +77,29 @@ APIS:
                 err: ['exec_error', 'login_again', 'Incorrect parameters', 'No such group']
                 resp: "Message added" (on success)
             }
+
+    /file/upload
+    -> hit for uploading file
+        req: 
+        {
+            phone, token, file
+        }
+        res:
+        {
+            status: ['success','fail'],
+            err: ['exec_error', 'login_again', 'Incorrect parameters'],
+            resp: fileName
+        }
+    
+    /file/download
+    ->hit for downloading file
+        req: 
+        {
+            phone, token, fileName
+        }
+        res:
+        {
+            status: ['success','fail'],
+            err: ['exec_error', 'login_again', 'Incorrect parameters'],
+            resp: fileName
+        }

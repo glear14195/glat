@@ -1,5 +1,6 @@
 "use strict";
 
+var fs = require('fs');
 var kue = require('kue');
 var config = require('./lib/config');
 var msgHandler = require('./lib/message');
@@ -35,6 +36,26 @@ jobs.process('msgSolrAdd', function (job, done) {
     });
   } else {
     console.error(`[ERR msgSolrAdd] Wrong Job received`);
+    done();
+  }
+});
+
+jobs.process('uploadFile', function (job, done) {
+  var data = job.data;
+  var file = data.file || ``;
+  var fileName = data.name || ``;
+  var phone = data.phone || ``;
+  if (file && fileName && phone) {
+    fs.writeFile(`images/${fileName}.glat`, file, function (err) {
+      if (err) {
+        console.error(`[ERROR uploadFile] ${err}`);
+      } else {
+        console.log(`[INFO uploadFile] The file ${fileName} was sent by ${phone}`);
+      }
+      done();
+    });
+  } else {
+    console.error(`[ERR uploadFile] Wrong Job received`);
     done();
   }
 });

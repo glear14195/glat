@@ -77,6 +77,23 @@ var middleware = {
     } else {
       res.json({ 'status': 'fail', 'err': 'You ain\'t posting it right' });
     }
+  },
+  multiPart: function (req, res, next) {
+    var file = '';
+    console.log(req.header('Content-Type'));
+    req.on('data', function (data) {
+        file += data;  
+    });
+    req.on('error', function (err) {
+      console.log(`[ERROR middleware/multiPart] ${err}`);
+      res.json({status: `fail`, err: err});
+    });
+    req.on('end', function() {
+      file = JSON.parse(file);
+      console.log(file);
+      req.body = file;
+      next();  
+    });
   }
 
 };

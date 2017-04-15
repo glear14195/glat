@@ -13,7 +13,7 @@ var login =
           } else {
             if (result.length && result[0].count !== '0') {
               pgclient.execute(
-                `update users set is_verified = 1 where phone = '${req.data.phone}'`,
+                `update users set is_verified = true where phone = '${req.data.phone}'`,
                 function (err, result) {
                   if (err) {
                     resp.err = err;
