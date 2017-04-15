@@ -22,7 +22,7 @@ var sendotp = function (req, res) {
           res.json(resp);
         }
         else {
-          var query = `insert into users values('${req.data.phone}','${req.data.name}',0)`;
+          var query = `insert into users values('${req.data.phone}','${req.data.name}',false)`;
           pgclient.execute(query, function (err, result) {
             if (err) {
               resp.err = err;

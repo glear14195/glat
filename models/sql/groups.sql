@@ -3,6 +3,7 @@ id serial primary key,
 uid varchar(20) not null,
 gname varchar(40) not null,
 is_active boolean default true,
+created_at timestamp default current_timestamp
 unique (uid,gname));
 
 create index uid_index on groups(uid);

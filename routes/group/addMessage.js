@@ -11,6 +11,7 @@ var addMsg = function (req,res) {
   var sensorData = butils.cleanObject(req.data.sensorData);
   var body = req.data.body || '';
   var resp = {status: 'fail', err: '', resp: ''};
+  
   if (gid && uid && latlong && sensorData && body) {
     Groups.findOne({where: {id: gid}}, function (err, group) {
       if (!err && group) {
@@ -20,7 +21,7 @@ var addMsg = function (req,res) {
           latlong: latlong,
           sensorData: sensorData,
           body: body
-        };
+        };//add check for is_member
         messageHandler.createMessage(msgObj, function (err, response) {
           if (err) {
             resp.err = 'execution_error';
