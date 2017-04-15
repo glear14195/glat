@@ -9,7 +9,7 @@
   "repository": {
   "type": "git",
   "url": "https://github.com/glear14195/glat"
-  },
+  }
   "author": "",
   "license": "ISC",
   "dependencies": {
