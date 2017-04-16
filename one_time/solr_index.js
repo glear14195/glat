@@ -5,6 +5,7 @@ var solr = require('solr-client');
 
 var Message = require('../models/message');
 var GroupMembers = require('../models/group_members');
+var Groups = require('../models/groups');
 
 var messageHandler = require('../lib/message');
 var groupHandler = require('../lib/group');
@@ -19,7 +20,7 @@ function solrIndex(type) {
         console.log(`[ERR one_time/solr_index] Solr -> ${err}`);
       } else {
         console.log(`Deleted Solr documents.`);
-        Message.find({ where: { visible_status: { in: [0] } } }, function (err, result) {
+        Message.find({ where: { visible_status: { nin: [2] } } }, function (err, result) {
           if (err) {
             console.log(`[ERR one_time/solr_index] Caminte -> ${err}`);
           } else {
@@ -80,6 +81,40 @@ function solrIndex(type) {
         });
       }
     });
+  } else if (type === "groups") {
+    console.log(`Deleting Solr documents...`);
+    solrClient.deleteByQuery('type_s:groups', function (err, delObj) {
+      if (err) {
+        console.log(`[ERR one_time/solr_index] Solr -> ${err}`);
+      } else {
+        console.log(`Deleted Solr documents.`);
+        Groups.find({ where: { is_active: true } }, function (err, result) {
+          if (err) {
+            console.log(`[ERR one_time/solr_index] Caminte -> ${err}`);
+          } else {
+            if (result) {
+              async.forEach(result, function (memObj, callback) {
+                memObj.src = "one_time";
+                groupHandler.addGroupSolr(memObj, callback);
+              }, function (err, result) {
+                if (err) {
+                  console.log(`[ERR one_time/solr_index] async -> ${err}`);
+                } else {
+                  console.log(`Done indexing`);
+                  solrClient.commit(function (err, res) {
+                    if (!err) {
+                      console.log(`Commit succesful!`);
+                    } else {
+                      console.log(`[ERR one_time/solr_index] commit -> ${err}`);
+                    }
+                  });
+                }
+              });
+            }
+          }
+        });
+      }
+    });
   }
 }
 
@@ -87,5 +122,6 @@ function solrIndex(type) {
 
 if (require.main === module) {
   // set argument as message or members
+  //solrIndex('message');
   solrIndex('members');
 }

@@ -5,6 +5,7 @@ var users = schema.define('users', {
   id: {type: schema.Number},
   phone: {type: schema.String, limit: 20},
   dname: {type: schema.String, limit: 100},
+  pic_location: {type: schema.String, limit: 100},
   is_verified: {type: schema.Boolean, default: false}
 });
 
