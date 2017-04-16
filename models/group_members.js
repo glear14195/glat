@@ -4,7 +4,8 @@ var schema = require('./schema');
 var groupMembers = schema.define('group_members', {
   gid: {type: schema.Number},
   uid: {type: schema.String, limit: 20},
-  is_admin: {type: schema.Boolean, default: false}
+  is_admin: {type: schema.Boolean, default: false},
+  status: {type: schema.Number, default: 1}
 });
 
 module.exports = groupMembers;

@@ -4,6 +4,7 @@ var fs = require('fs');
 var kue = require('kue');
 var config = require('./lib/config');
 var msgHandler = require('./lib/message');
+var groupHandler = require('./lib/group');
 
 var jobs = kue.createQueue(config.kue_config);
 
@@ -58,4 +59,21 @@ jobs.process('uploadFile', function (job, done) {
     console.error(`[ERR uploadFile] Wrong Job received`);
     done();
   }
+});
+
+jobs.process('memberSolrAdd', function (job, done) {
+  var data = job.data;
+  if (data) {
+    groupHandler.addMemberSolr(data, function (err, res) {
+      if (err) {
+        console.error(`[ERR memberSolrAdd] ${err}`);
+      } else {
+        console.info(`[INFO memberSolrAdd] ${res}`);
+      }
+      done();
+    });
+  } else {
+    console.error(`[ERR memberSolrAdd] Wrong Job received`);
+    done();
+  } 
 });

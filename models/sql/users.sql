@@ -5,4 +5,4 @@ create table users (
     is_verified boolean default false
 );
 
-create index user_phone on users(phone);  
+create index user_phone on users(phone);

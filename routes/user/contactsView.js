@@ -3,11 +3,11 @@
 var user = require('../../lib/user');
 
 var contactsView = function (req, res) {
-  var resp = {'status':'fail','err':'','resp':[]};
+  var resp = {'status':'fail','err':'','resp':[]};  
   var contacts = req.data.contacts || '';
   var phone = req.data.phone || '';
   var gid = req.data.gid || ``;
-  
+
   if (contacts && Array.isArray(contacts) && phone) {
     user.getNames(contacts, gid, phone, function (err, result) {
       if (!err) {
