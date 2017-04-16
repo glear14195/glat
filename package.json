@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-  "type": "git",
-  "url": "https://github.com/glear14195/glat"
+    "type": "git",
+    "url": "https://github.com/glear14195/glat"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "express": "^4.14.0",
     "graceful-fs": "^4.1.11",
     "kue": "^0.11.5",
+    "moment": "^2.18.1",
     "pg": "^6.1.2",
     "redis": "^2.6.5",
     "solr-client": "^0.6.0",

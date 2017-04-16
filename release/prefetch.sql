@@ -41,3 +41,5 @@ create table message(
 
 create index message_gid on message(gid);
 create index message_id on message(id);
+
+alter table group_members add column status int default 1;
