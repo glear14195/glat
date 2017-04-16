@@ -1,11 +1,11 @@
 
 var config = {
   pg_config: {
-    pg_conn_string: "postgres://niru:hello@localhost/glatDb",
+    pg_conn_string: "postgres://glat:hello@localhost/glatDb",
     db_config: {
       driver: 'postgres',
       username: 'niru',
-      database: 'glatDb',
+      database: 'glatdb',
       password: 'hello',
       host: 'localhost',
       port: 5432,

@@ -7,7 +7,7 @@ var pgclient={
     execute : function(query,cb){
         var client = new pg.Client(conf.pg_config.pg_conn_string);
         client.connect(function (err) {
-            if (err) cb('conn_error',null);
+            if (err) cb(err,null);
             else {
                    client.query(query, function (err, result) {
                        client.end();
