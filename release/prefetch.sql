@@ -43,3 +43,6 @@ create index message_gid on message(gid);
 create index message_id on message(id);
 
 alter table group_members add column status int default 1;
+
+alter table groups add column pic_location varchar(100);
+alter table users add column pic_location varchar(100);

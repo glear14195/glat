@@ -6,6 +6,7 @@ var groups = schema.define('groups', {
   uid: {type: schema.String, limit: 20},
   gname: {type: schema.String, limit: 40},
   is_active: {type: schema.Boolean, default: true},
+  pic_location: {type: schema.String, limit: 100},
   created_at: {type: schema.Date, default: Date.now}
 });
 
