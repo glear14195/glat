@@ -9,7 +9,7 @@ var contactsView = function (req, res) {
   var gid = req.data.gid || ``;
 
   if (contacts && Array.isArray(contacts) && phone) {
-    user.getNames(contacts, gid, phone, function (err, result) {
+    user.getNamesFromContacts(contacts, gid, phone, function (err, result) {
       if (!err) {
         resp.status = 'success';
         resp.resp = result;
