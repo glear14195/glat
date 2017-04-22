@@ -75,5 +75,22 @@ jobs.process('memberSolrAdd', function (job, done) {
   } else {
     console.error(`[ERR memberSolrAdd] Wrong Job received`);
     done();
-  } 
+  }
+});
+
+jobs.process('messageLogAdd', function (job, done) {
+  var data = job.data;
+  if (data) {
+    msgHandler.messageLogAdd(data, function (err, res) {
+      if (err) {
+        console.error(`[ERR messageLogAdd] ${err}`);
+      } else {
+        console.info(`[INFO messageLogAdd] Added Log for msgId: ${data}`);
+      }
+      done();
+    });
+  } else {
+    console.error(`[ERR messageLogAdd] Wrong Job received`);
+    done();
+  }
 });
