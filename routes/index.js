@@ -10,6 +10,7 @@ routes.post('/group/add',mw.navigate,mw.checkToken,group.updateOrCreate);
 routes.post('/group/message/add',mw.navigate,mw.checkToken,group.addMessage);
 routes.post('/user/contacts/view',mw.navigate, mw.checkToken, user.viewContacts);
 routes.post('/user/groupListView',mw.navigate,mw.checkToken,user.groupListView);
+routes.post('/group/showMessage',mw.navigate,mw.checkToken,group.showMessage);
 
 
 routes.post('/swap',function(req,res){
