@@ -2,7 +2,7 @@ var conf = require('../lib/config');
 
 var pg = require('pg');
 
-//switch to pool???
+//switch to pool ???
 var pgclient={
     execute : function(query,cb){
         var client = new pg.Client(conf.pg_config.pg_conn_string);

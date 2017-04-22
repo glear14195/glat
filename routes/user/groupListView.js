@@ -13,8 +13,7 @@ var groupListView=function(req,res){
 
   var latLong = butils.cleanLatLong(req.data.coord[0], req.data.coord[1]);
 
-  if(phone && latLong )
-  {
+  if(phone && latLong) {
       user.getGroupsList(phone,latLong,function(err,result){
       if(!err)
       {

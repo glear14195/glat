@@ -124,4 +124,5 @@ if (require.main === module) {
   // set argument as message or members
   //solrIndex('message');
   solrIndex('members');
+
 }
