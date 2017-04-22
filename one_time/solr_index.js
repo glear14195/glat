@@ -87,5 +87,5 @@ function solrIndex(type) {
 
 if (require.main === module) {
   // set argument as message or members
-  solrIndex('members');
+  solrIndex('message');
 }
