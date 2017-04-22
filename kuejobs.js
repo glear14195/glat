@@ -31,7 +31,7 @@ jobs.process('msgSolrAdd', function (job, done) {
       if (err) {
         console.error(`[ERR msgSolrAdd] ${err}`);
       } else {
-        console.info(`[INFO msgSolrAdd] ${res}`);
+        console.info(`[INFO msgSolrAdd] Added message mid: ${data.id}`);
       }
       done();
     });
@@ -61,19 +61,19 @@ jobs.process('uploadFile', function (job, done) {
   }
 });
 
-jobs.process('memberSolrAdd', function (job, done) {
+jobs.process('membersSolrAdd', function (job, done) {
   var data = job.data;
   if (data) {
-    groupHandler.addMemberSolr(data, function (err, res) {
+    groupHandler.addMembersSolr(data, function (err, res) {
       if (err) {
-        console.error(`[ERR memberSolrAdd] ${err}`);
+        console.error(`[ERR membersSolrAdd] ${err}`);
       } else {
-        console.info(`[INFO memberSolrAdd] ${res}`);
+        console.info(`[INFO membersSolrAdd] Added members for gid: ${data}`);
       }
       done();
     });
   } else {
-    console.error(`[ERR memberSolrAdd] Wrong Job received`);
+    console.error(`[ERR membersSolrAdd] Wrong Job received`);
     done();
   }
 });

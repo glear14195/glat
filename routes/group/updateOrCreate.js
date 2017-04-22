@@ -11,20 +11,11 @@ function addMemsToGid(mems, gid, phone, cb) {
       cb(err);
     } else {
       var toAdd = U.u;
-      groupHandler.addMembers(gid, toAdd, function (err) {
+      groupHandler.addMembers(gid, toAdd, phone, function (err) {
         if (err) {
           cb(err);
         } else {
-          groupHandler.setAdmin(gid, phone, function (err, r) {
-            if (err) {
-              cb(err);
-            } else {
-              cb(null, {
-                added: toAdd,
-                notAdded: U.nu
-              });
-            }
-          });
+           cb(null, { added: toAdd, notAdded: U.nu });
         }
       });
     }
@@ -46,6 +37,7 @@ var updateOrCreate = function (req, res) {
         resp.err = err;
         res.json(resp);
       } else {
+        // reqGid not sent and group exists
         if (!reqGid && groupDetails) {
           console.log(`[ERROR group/updateOrCreate] for ${phone}: Group already exists`);
           resp.err = 'Group already exists';
@@ -76,9 +68,9 @@ var updateOrCreate = function (req, res) {
           } else {
             gid = reqGid;
             Groups.update({id: gid, uid: phone}, {gname: gname}, function (err, updatedDetails) {
-              if (err) {
-                console.log(`[ERROR group/updateOrCreate] Could not update group for ${phone}: ${err}`);
-                resp.err = 'execution_error';
+              if (err || !updatedDetails) {
+                console.log(`[ERROR group/updateOrCreate] Could not update group for ${phone}: ${err || 'is not admin'}`);
+                resp.err = err ? `execution_error` : `is not admin`;
                 res.json(resp);
               } else {
                 addMemsToGid(mems, gid, phone, function (err, response) {
