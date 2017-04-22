@@ -59,3 +59,18 @@ create table message_log(
 
 create index message_log_index on message_log(gid,uid,mid);
 
+insert into message_log(gid, uid, mid, status)
+select gm.gid, gm.uid, m.id, (case when gm.uid = m.uid then 2 else 0 end) 
+from message m join group_members gm on gm.gid = m.gid and gm.status = 1;
+
+create table message_feed(
+  id serial primary key,
+  gid int not null,
+  uid varchar(20) not null,
+  mid int not null,
+  comment varchar(150) not null,
+  created_at timestamp default current_timestamp
+);
+
+create index message_feed_index on message_feed(gid,mid);
+

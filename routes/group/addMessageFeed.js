@@ -1,8 +1,8 @@
 "use_strict";
 
-var MessageLog=require('../../models/message_log');
+var MessageFeed=require('../../models/message_feed');
 
-var markMessageRead= function(req,res){
+var addMessageFeed= function(req,res){
 
     var resp= {'status':'fail','err':'','resp':[]};
 
@@ -10,27 +10,24 @@ var markMessageRead= function(req,res){
     var gid=req.data.gid || '';
     var uid=req.data.phone || '';
      var mid=req.data.mid || '';
+     var comment=req.data.comment || '';
     var token = req.data.token;
 
-    if( gid && uid && mid && token) {
-      MessageLog.update({
-      where : {
-           status: 0,
+    if( gid && uid && mid && token && comment) {
+      MessageFeed.create(
+       {
+           comment:comment,
            gid: gid,
            uid: uid,
            mid: mid
-        }
-       }, {
-           status: 1,
-           modified_time : Date.now
-       },
+        },
            function(err, result){
               if (!err) {
                 resp.status = 'success';
-                resp.resp = 'Message in Read status';
+                resp.resp = 'Comment in the message feed ';
             } 
             else {
-               console.log(`[ERROR user/markMessageRead] for ${phone}: ${err}`);
+               console.log(`[ERROR user/addMessageFeed] for ${phone}: ${err}`);
                resp.err = err;
             }
 
@@ -46,4 +43,4 @@ var markMessageRead= function(req,res){
 
 };
 
-module.exports = markMessageRead
+module.exports = addMessageFeed

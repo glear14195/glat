@@ -1,3 +1,5 @@
+"use_strict";
+
 var Groups = require('../../models/groups');
 var userHandler = require('../../lib/user');
 var groupHandler = require('../../lib/group');
