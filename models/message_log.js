@@ -8,7 +8,6 @@ var message_log = schema.define('message_log', {
   mid: {type: schema.Number},
   status: {type: schema.Number},
   modified_at: {type: schema.Date, default: Date.now}
-  
 });
 
 module.exports = message_log;

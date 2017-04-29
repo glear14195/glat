@@ -8,7 +8,6 @@ var message_feed = schema.define('message_feed', {
   mid: {type: schema.Number},
   comment: {type: schema.String},
   created_at: {type: schema.Date, default: Date.now}
-  
 });
 
 module.exports = message_feed;
