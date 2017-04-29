@@ -3,4 +3,4 @@ images/*
 node_modules/*
 solrdel
 graph.svg
-config.js
+lib/config.js
