@@ -1,27 +1,22 @@
-"use_strict";
+"use strict";
 
-var user=require('../../lib/user');
-var butils=require('../../lib/butils');
+var butils = require('../../lib/butils');
+var userHandler = require('../../lib/user');
 
 
-var groupListView=function(req,res){
 
-  var resp = {'status':'fail','err':'','resp':[]};
-  var phone=req.data.phone;
-  
-  var token=req.data.token; 
+var groupListView = function (req, res) {
 
+  var resp = { 'status': 'fail', 'err': '', 'resp': [] };
+  var phone = req.data.phone || ``;
   var latLong = butils.cleanLatLong(req.data.coord[0], req.data.coord[1]);
 
-  if(phone && latLong) {
-      user.getGroupsList(phone,latLong,function(err,result){
-      if(!err)
-      {
-          resp.status='success';
-          resp.resp=result;
-
-      }
-        else {
+  if (phone && latLong) {
+    userHandler.getGroupsList(phone, latLong, function (err, result) {
+      if (!err) {
+        resp.status = 'success';
+        resp.resp = result;
+      } else {
         console.log(`[ERROR user/groupListView] for ${phone}: ${err}`);
         resp.err = err;
       }
@@ -35,4 +30,3 @@ var groupListView=function(req,res){
 };
 
 module.exports = groupListView;
-     

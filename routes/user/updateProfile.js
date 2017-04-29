@@ -11,6 +11,7 @@ var updateProfile = function (req, res) {
   var updateDict = {};
   picLoc ? updateDict.pic_location = picLoc : null;
   name ? updateDict.dname = name : null;
+  
   if (phone && Object.keys(updateDict).length) {
     User.update({ where: { phone: phone } }, updateDict, function (err, result) {
       if (!err) {
@@ -29,4 +30,4 @@ var updateProfile = function (req, res) {
   }
 };
 
-module.exports = updateProfile
+module.exports = updateProfile;
