@@ -9,7 +9,7 @@ var markMessageRead = function (req, res) {
   var phone = req.data.phone || '';
   var mid = req.data.mid || '';
 
-  if (gid && uid && mid) {
+  if (gid && phone && mid) {
     var whereDict = {
       status: 0,
       gid: gid,

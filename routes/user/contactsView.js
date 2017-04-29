@@ -1,14 +1,15 @@
 "use strict";
 
+var butils = require('../../lib/butils');
 var user = require('../../lib/user');
 
 var contactsView = function (req, res) {
   var resp = {'status':'fail','err':'','resp':[]};  
-  var contacts = req.data.contacts || '';
+  var contacts = butils.cleanContactArray(req.data.contacts) || '';
   var phone = req.data.phone || '';
   var gid = req.data.gid || ``;
 
-  if (contacts && Array.isArray(contacts) && phone) {
+  if (Array.isArray(contacts) && contacts.length && phone) {
     user.getNamesFromContacts(contacts, gid, phone, function (err, result) {
       if (!err) {
         resp.status = 'success';

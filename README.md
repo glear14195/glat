@@ -56,7 +56,7 @@ APIS:
     ->hit for viewing contacts list
         req:
             {
-                phone,token,contacts array
+                phone,token,contacts array(Array of JSON objects of name & phome)
             }
         res:
             {
@@ -103,3 +103,70 @@ APIS:
             err: ['exec_error', 'login_again', 'Incorrect parameters'],
             resp: fileName
         }
+
+     /user/updateProfile
+     -> API for profile update
+        req:
+        {
+            phone,token,name,picLoc
+        }
+         res:
+        {
+            status: ['success','fail'],
+            err: ['exec_error', 'login_again', 'Incorrect parameters'],
+            resp: "Profile updated"
+        }
+
+    /group/showAllMessages
+    -> API for listing all messages of group
+       req:
+       {
+           phone,token,gid,coord (array of Lat,Long)
+       }
+       res:
+       {
+           status: ['success','fail'],
+            err: ['exec_error', 'login_again', 'Incorrect parameters'],
+            resp: JSON array of messages (body,lat,long,gid,mi,createdByNum,createdbyName,createdAt,,sensorData (JSON obj))
+       }
+
+    /group/addMessageFeed
+     -> API for adding comment in the message feed
+      req:
+      {
+          phone,token,gid,mid,comment
+      }
+      res:
+      {
+          status: ['success','fail'],
+            err: ['exec_error', 'login_again', 'Incorrect parameters'],
+            resp: "Comment added in the message"
+      }
+
+      /group/displayMessageFeed
+      ->API for displaying all comments of the message
+      req:
+      {
+          phone,token,gi,mid
+      }
+      res:
+      {
+         status: ['success','fail'],
+            err: ['exec_error', 'login_again', 'Incorrect parameters'],
+            resp: JSON array of message feed  (dname,comment,createdAt)
+      }
+
+      /group/markMessageRead
+      ->API for updating the read status of a message for the user
+      req:
+      {
+          phone,token,mid,gid
+      }
+       res:
+      {
+         status: ['success','fail'],
+            err: ['exec_error', 'login_again', 'Incorrect parameters'],
+            resp: "Message in read status"
+      }
+      
+      

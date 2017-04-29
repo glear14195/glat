@@ -19,7 +19,7 @@ var addMessageFeed = function (req, res) {
       }, function (err, result) {
         if (!err) {
           resp.status = 'success';
-          resp.resp = 'Comment in the message feed ';
+          resp.resp = 'Comment added in the message feed ';
         } else {
           console.log(`[ERROR user/addMessageFeed] for ${phone}: ${err}`);
           resp.err = err;
