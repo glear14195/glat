@@ -62,7 +62,7 @@ APIS:
             {
                 status: ['success','fail'],
                 err: ['execution_error','Missing arguments'],
-                resp: [{dname,phone}]
+                resp: [{dname,phone,is_member,pic_location}]
             }
 
     /group/message/add
@@ -153,7 +153,7 @@ APIS:
       {
          status: ['success','fail'],
             err: ['exec_error', 'login_again', 'Incorrect parameters'],
-            resp: JSON array of message feed  (dname,comment,createdAt)
+            resp: JSON array of message feed  (dname,comment,createdAt,pic_location)
       }
 
       /group/markMessageRead

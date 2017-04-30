@@ -28,3 +28,23 @@ var displayMessageFeed = function (req, res) {
 };
 
 module.exports = displayMessageFeed;
+
+//----------------------------------------------
+
+if (require.main === module) {
+  var req = {
+    data: {
+      phone: "919962036295",
+      gid: 42,
+      mid: 4
+    }
+  };
+
+  var res = {
+    json: function (data) {
+      console.log(data);
+    }
+  };
+
+  displayMessageFeed(req, res);
+}

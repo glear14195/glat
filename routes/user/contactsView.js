@@ -28,3 +28,22 @@ var contactsView = function (req, res) {
 };
 
 module.exports = contactsView;
+
+//----------------------------------------------------------------
+
+if (require.main === module) {
+  var req = {
+    data: {
+      contacts: [{phone: "8778131717", name: "Chu"}, {phone: "9790860738", name: "Suki love"}, {phone: "9790239111", name: "Shreyas moon"}],
+      phone: "919962036295"
+    }
+  };
+
+  var res = {
+    json: function(data) {
+      console.log(data);
+    }
+  }
+
+  contactsView(req, res);
+}
