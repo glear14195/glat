@@ -29,14 +29,27 @@ var updateOrCreate = function (req, res) {
   var phone = req.data.phone || ``;
   var gname = req.data.gname || ``;
   var mems = req.data.mems || [];
-  var reqGid = req.data.gid || ``;
+  var picLocation = req.data.picLoc || ``;
+  var reqGid = Number(req.data.gid) || ``;
   
   if (phone && gname && Array.isArray(mems)) {
     mems = mems.map((phone) => butils.cleanPhone(phone));
-    Groups.findOne({ where: { uid: phone, gname: gname } }, function (err, groupDetails) {
+    var whereDict = {
+      uid: phone
+    };
+    if (reqGid) {
+      whereDict.id = reqGid;
+    } else {
+      whereDict.gname = gname;
+    }
+    Groups.findOne({ where: whereDict }, function (err, groupDetails) {
       if (err) {
         console.log(`[ERROR group/updateOrCreate] for ${phone}: ${err}`);
         resp.err = err;
+        res.json(resp);
+      } else if (reqGid && !groupDetails) {
+        console.log(`[ERROR group/updateOrCreate] Could not update group for ${phone}: is not admin`);
+        resp.err = `is not admin`;
         res.json(resp);
       } else {
         // reqGid not sent and group exists
@@ -47,7 +60,7 @@ var updateOrCreate = function (req, res) {
         } else {
           var gid;
           if (!groupDetails) {
-            Groups.create({ uid: phone, gname: gname }, function (err, groupDetails) {
+            Groups.create({ uid: phone, gname: gname, pic_location: picLocation }, function (err, groupDetails) {
               if (err) {
                 console.log(`[ERROR group/updateOrCreate] Could not create group for ${phone}: ${err}`);
                 resp.err = 'execution_error';
@@ -69,10 +82,17 @@ var updateOrCreate = function (req, res) {
             });
           } else {
             gid = reqGid;
-            Groups.update({id: gid, uid: phone}, {gname: gname}, function (err, updatedDetails) {
-              if (err || !updatedDetails) {
-                console.log(`[ERROR group/updateOrCreate] Could not update group for ${phone}: ${err || 'is not admin'}`);
-                resp.err = err ? `execution_error` : `is not admin`;
+            var updateDict = {
+              gname: gname
+            };
+            if (picLocation) {
+              updateDict.pic_location = picLocation;
+            }
+
+            Groups.update({id: gid, uid: phone}, updateDict, function (err, updatedDetails) {
+              if (err) {
+                console.log(`[ERROR group/updateOrCreate] Could not update group for ${phone}: ${err}`);
+                resp.err = `execution_error`;
                 res.json(resp);
               } else {
                 addMemsToGid(mems, gid, phone, function (err, response) {

@@ -47,7 +47,7 @@ jobs.process('uploadFile', function (job, done) {
   var fileName = data.name || ``;
   var phone = data.phone || ``;
   if (file && fileName && phone) {
-    fs.writeFile(`images/${fileName}.glat`, file, function (err) {
+    fs.writeFile(`images/${fileName}.glat`, file, {flag: 'wx'}, function (err) {
       if (err) {
         console.error(`[ERROR uploadFile] ${err}`);
       } else {
@@ -91,6 +91,23 @@ jobs.process('messageLogAdd', function (job, done) {
     });
   } else {
     console.error(`[ERR messageLogAdd] Wrong Job received`);
+    done();
+  }
+});
+
+jobs.process('messageLogAddForGid', function (job, done) {
+  var data = job.data;
+  if (data) {
+    msgHandler.messageLogAddForGid(data, function (err, res) {
+      if (err) {
+        console.error(`[ERR messageLogAddForGid] ${err}`);
+      } else {
+        console.info(`[INFO messageLogAddForGid] Added Log for gid: ${data}`);
+      }
+      done();
+    });
+  } else {
+    console.error(`[ERR messageLogAddForGid] Wrong Job received`);
     done();
   }
 });

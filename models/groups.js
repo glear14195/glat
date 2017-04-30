@@ -19,7 +19,7 @@ if (require.main === module) {
     groups.all({}, function (err, res) {
       console.log(err || res);
     });
-    groups.findOne({where: {uid: '121212', gname: 'lolololo'}}, function (err, result) {
+    groups.findOne({id: 52}, function (err, result) {
       console.log(err || result);
     });
   })();

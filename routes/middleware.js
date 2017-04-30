@@ -80,7 +80,6 @@ var middleware = {
   },
   multiPart: function (req, res, next) {
     var file = '';
-    console.log(req.header('Content-Type'));
     req.on('data', function (data) {
         file += data;  
     });
@@ -90,7 +89,6 @@ var middleware = {
     });
     req.on('end', function() {
       file = JSON.parse(file);
-      console.log(file);
       req.body = file;
       next();  
     });

@@ -125,9 +125,9 @@ APIS:
        }
        res:
        {
-           status: ['success','fail'],
+            status: ['success','fail'],
             err: ['exec_error', 'login_again', 'Incorrect parameters'],
-            resp: JSON array of messages (body,lat,long,gid,mi,createdByNum,createdbyName,createdAt,,sensorData (JSON obj))
+            resp: JSON array of messages (body, lat, long, gid, mid, createdByNum, createdbyName, createdAt, sensorData (JSON obj))
        }
 
     /group/addMessageFeed
@@ -138,9 +138,9 @@ APIS:
       }
       res:
       {
-          status: ['success','fail'],
-            err: ['exec_error', 'login_again', 'Incorrect parameters'],
-            resp: "Comment added in the message"
+        status: ['success','fail'],
+        err: ['exec_error', 'login_again', 'Incorrect parameters'],
+        resp: "Comment added in the message"
       }
 
       /group/displayMessageFeed
@@ -151,9 +151,9 @@ APIS:
       }
       res:
       {
-         status: ['success','fail'],
-            err: ['exec_error', 'login_again', 'Incorrect parameters'],
-            resp: JSON array of message feed  (dname,comment,createdAt,pic_location)
+        status: ['success','fail'],
+        err: ['exec_error', 'login_again', 'Incorrect parameters'],
+        resp: JSON array of message feed  (user,message,createdAt,pic_location)
       }
 
       /group/markMessageRead
@@ -162,11 +162,22 @@ APIS:
       {
           phone,token,mid,gid
       }
-       res:
+      res:
       {
-         status: ['success','fail'],
-            err: ['exec_error', 'login_again', 'Incorrect parameters'],
-            resp: "Message in read status"
+        status: ['success','fail'],
+        err: ['exec_error', 'login_again', 'Incorrect parameters'],
+        resp: "Message in read status"
       }
       
-      
+      /user/groupListView
+      ->API for retrieving groupList
+      req:
+      {
+          phone, token, lat, long
+      }
+      res:
+      {
+          status: ['success','fail'],
+          err: ['exec_error', 'login_again', 'Missing Arguments'],
+          resp: [{gname, gid, unread_count, pic_location}]
+      }

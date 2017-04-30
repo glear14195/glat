@@ -1,5 +1,6 @@
 "use strict";
 
+var moment = require('moment');
 var messageHandler = require('../../lib/message');
 
 var displayMessageFeed = function (req, res) {
@@ -13,6 +14,10 @@ var displayMessageFeed = function (req, res) {
     messageHandler.getMessageFeed(gid, mid, function (err, result) {
       if (!err) {
         resp.status = 'success';
+        result.map((element) => {
+          element.createdAt = moment(element.createdat).format(`dddd, MMMM Do YYYY, h:mm a`);
+          delete element.createdat;
+        });
         resp.resp = result;
       } else {
         console.log(`[ERROR user/displayMessageFeed] for ${phone}: ${err}`);

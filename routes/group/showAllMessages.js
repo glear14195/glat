@@ -8,7 +8,7 @@ var showAllMessages = function (req, res) {
 
   var phone = req.data.phone || '';
   var gid = req.data.gid || '';
-  var latLong = butils.cleanLatLong(req.data.coord[0], req.data.coord[1]);
+  var latLong = butils.cleanLatLong(req.data.lat, req.data.long);
 
   if (phone && gid && latLong) {
     messageHandler.getMessagesForGroupSolr(gid, latLong, phone, function (err, result) {
@@ -19,6 +19,7 @@ var showAllMessages = function (req, res) {
         console.log(`[ERROR user/showAllMessages] for ${phone}: ${err}`);
         resp.err = err;
       }
+      console.log(resp);
       res.json(resp);
     });
   } else {
