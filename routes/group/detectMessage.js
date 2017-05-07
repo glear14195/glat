@@ -1,14 +1,15 @@
 "use strict";
 
 var exec = require('child_process').exec;
+var fs = require('fs');
 var path = require('path');
 var jobs = require('../../lib/jobs');
 var fileHandler = require('../../lib/file');
 
 const algoPath = path.resolve(__dirname, `../../app`);
 
-function getResolvedPath(pathToResolve) {
-  return path.resolve(__dirname, `../../images`, pathToResolve + `.glat`);
+function getResolvedPath(pathToResolve, ext) {
+  return path.resolve(__dirname, `../../images`, pathToResolve + `.${ext}`);
 }
 
 var detectMessage = function (req, res) {
@@ -19,11 +20,11 @@ var detectMessage = function (req, res) {
   var phone = req.data.phone || ``;
 
   if (objectPath && sceneImg && phone) {
-    objectPath = getResolvedPath(objectPath);
-    sceneImg = getResolvedPath(sceneImg);
+    objectPath = getResolvedPath(objectPath, `glat`);
+    sceneImg = getResolvedPath(sceneImg, `glat`);
     var outputFileName = fileHandler.getName(phone);
-    console.log(`.${algoPath} ${objectPath} ${sceneImg} ${getResolvedPath(outputFileName)}`);
-    exec(`.${algoPath} ${objectPath} ${sceneImg} ${getResolvedPath(outputFileName)}`, function (err, stdout, stderr) {
+    console.log(`.${algoPath} ${objectPath} ${sceneImg} ${getResolvedPath(outputFileName, `jpg`)}`);
+    exec(`${algoPath} ${objectPath} ${sceneImg} ${getResolvedPath(outputFileName, `jpg`)}`, function (err, stdout, stderr) {
       if (err) {
         console.log(`[ERROR group/detectMessage] error: ${stderr}`);
         resp.err = err;
@@ -31,6 +32,7 @@ var detectMessage = function (req, res) {
       } else {
         resp.status = `success`;
         resp.resp = outputFileName;
+        fs.renameSync(getResolvedPath(outputFileName, `jpg`), getResolvedPath(outputFileName, `glat`));
         res.json(`done`);
       }
     });
@@ -48,8 +50,8 @@ module.exports = detectMessage;
 if (require.main === module) {
   var req = {
     data: {
-      objectPath: '1545375606ce0605726dab0eb75fd2b8baffece439a9e9fb760ee173e353764d',
-      sceneImg: '7198626ba1df623bc40aa756ace515bfa9e8faa6497585a55cca0682c029c480',
+      objectPath: 'param1',
+      sceneImg: 'param2',
       phone: '9962036295'
     }
   };
