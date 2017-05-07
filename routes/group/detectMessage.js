@@ -33,11 +33,11 @@ var detectMessage = function (req, res) {
         resp.status = `success`;
         resp.resp = outputFileName;
         fs.renameSync(getResolvedPath(outputFileName, `jpg`), getResolvedPath(outputFileName, `glat`));
-        res.json(`done`);
+        res.json(resp);
       }
     });
   } else {
-    resp.err = 'Missing arguments';
+    resp.err = 'Incorrect parameters';
     console.log(`[ERROR group/detectMessage] Invalid parameters for ${phone}`)
     res.json(resp);
   }

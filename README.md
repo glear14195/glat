@@ -181,3 +181,16 @@ APIS:
           err: ['exec_error', 'login_again', 'Missing Arguments'],
           resp: [{gname, gid, unread_count, pic_location}]
       }
+
+      /group/message/detect
+      ->API for doing server side object detection
+      req: 
+      {
+          objectPath, sceneImg, phone, token
+      }
+      res:
+      {
+        status: ['success','fail'],
+        err: ['exec_error', 'login_again', 'Incorrect parameters'],
+        resp: fileName
+      }
