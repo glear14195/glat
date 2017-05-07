@@ -22,4 +22,4 @@ app.use('/', routes);
 //app.use(routes.mw.logErrors);
 //app.use(routes.mw.errorHandler);
 
-app.listen('8080', '0.0.0.0');
+app.listen('8080', '');

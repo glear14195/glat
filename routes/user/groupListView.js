@@ -8,7 +8,7 @@ var groupListView = function (req, res) {
   var resp = { 'status': 'fail', 'err': '', 'resp': [] };
   var phone = req.data.phone || ``;
   var latLong = butils.cleanLatLong(req.data.lat, req.data.long);
-
+  
   if (phone && latLong) {
     userHandler.getGroupsList(phone, latLong, function (err, result) {
       if (!err) {
