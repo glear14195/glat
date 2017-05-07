@@ -1,6 +1,6 @@
 "use strict";
 
-var moment = require('moment');
+var butils = require('../../lib/butils');
 var messageHandler = require('../../lib/message');
 
 var displayMessageFeed = function (req, res) {
@@ -15,7 +15,7 @@ var displayMessageFeed = function (req, res) {
       if (!err) {
         resp.status = 'success';
         result.map((element) => {
-          element.createdAt = moment(element.createdat).format(`dddd, MMMM Do YYYY, h:mm a`);
+          element.createdAt = butils.timeFormat(element.createdat);
           delete element.createdat;
         });
         resp.resp = result;
