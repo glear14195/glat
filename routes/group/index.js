@@ -5,6 +5,7 @@ var showAllMessages = require('./showAllMessages');
 var markMessageRead = require('./markMessageRead');
 var addMessageFeed = require('./addMessageFeed');
 var displayMessageFeed = require('./displayMessageFeed');
+var detectMessage = require('./detectMessage');
 
 var group = {
   'updateOrCreate': updateOrCreate,
@@ -13,7 +14,8 @@ var group = {
   'showAllMessages': showAllMessages,
   'markMessageRead': markMessageRead,
   'addMessageFeed': addMessageFeed,
-  'displayMessageFeed': displayMessageFeed
-}
+  'displayMessageFeed': displayMessageFeed,
+  'detectMessage': detectMessage
+};
 
 module.exports = group;

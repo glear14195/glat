@@ -46,6 +46,7 @@ jobs.process('uploadFile', function (job, done) {
   var file = data.file || ``;
   var fileName = data.name || ``;
   var phone = data.phone || ``;
+  
   if (file && fileName && phone) {
     fs.writeFile(`images/${fileName}.glat`, file, {flag: 'wx'}, function (err) {
       if (err) {

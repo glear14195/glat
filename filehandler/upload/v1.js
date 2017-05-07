@@ -1,8 +1,6 @@
 "use strict";
 
-var SHA256 = require("crypto-js").SHA256;
-var chance = require('chance');
-var jobs = require('../../lib/jobs');
+var fileHandler = require('../../lib/file');
 
 var v1 = function (req, res) {
   var file = req.data.file || ``;
@@ -10,8 +8,7 @@ var v1 = function (req, res) {
   var resp = { status: "fail", err: "",resp: ""};
   if (phone && file) {
     // Generating fileName for storing on server
-    var fileName = SHA256((new Date()).getTime().toString() + phone + new chance().string({ length: 16, pool: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" })).toString();
-    jobs.uploadFile({ file: file, name: fileName, phone: phone });
+    var fileName = fileHandler.uploadFile(file, phone);
     resp.status = "success";
     resp.resp = fileName;
     res.json(resp);

@@ -16,6 +16,7 @@ routes.post('/group/showAllMessages',mw.navigate,mw.checkToken,group.showAllMess
 routes.post('/group/markMessageRead',mw.navigate,mw.checkToken,group.markMessageRead);
 routes.post('/group/addMessageFeed',mw.navigate,mw.checkToken,group.addMessageFeed);
 routes.post('/group/displayMessageFeed',mw.navigate,mw.checkToken,group.displayMessageFeed);
+routes.post('/group/message/detect',mw.navigate,mw.checkToken,group.detectMessage);
 
 
 routes.post('/swap',function(req,res){
